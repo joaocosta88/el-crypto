@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  pg:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "Postgres2019!"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgvolume:/pgdata
+    networks:
+      - pgnetwork
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pgadmin"
+      PGADMIN_DEFAULT_PASSWORD: "pgadmin"
+    ports:
+      - "15432:80"
+    depends_on:
+      - pg
+    networks:
+      - pgnetwork
+    volumes:
+      - pga4volume:/var/lib/pgadmin
+
+networks: 
+  pgnetwork:
+    driver: bridge
+
+volumes:
+  pgvolume:
+  pga4volume:
